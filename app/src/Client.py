@@ -14,16 +14,10 @@ class Client:
     def startConnection(self):
         self.clientSocket.connect((self.IP, self.PORT))
     
-    def createMessage(self,message, data = None):
-        if data == None:
-            body = {'message': message}
-            msg = json.dumps(body).encode("utf-8")
-            self.sendMessage(msg)
-        
-        else:
-            body = {'message': message, 'data': data}
-            msg = json.dumps(body).encode("utf-8")
-            self.sendMessage(msg)
+    def createMessage(self,message, data):
+        body = {'message': message, 'data': data}
+        msg = json.dumps(body).encode("utf-8")
+        self.sendMessage(msg)
     
     def sendMessage(self,message):
         print('Sending Message From client',message)

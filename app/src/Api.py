@@ -11,25 +11,26 @@ class Api:
     
     def fetchMessage(self,data,client):
         message = data['message']
-        
-        if 'data' in data:
-            data = data['data']
+        if 'data' in data: data = data['data']
         
         ##### LIXEIRA BALANCER #####        
         if message == 'changeLixeiraStatus':
-            self.changeLixeiraStatus(client,message)
+            self.changeLixeiraStatus(client,message,data)
     
         elif message == 'emptyLixeira':
-            self.emptyLixeira(client,message)
+            self.emptyLixeira(client,message,data)
             
         elif message == 'fullLixeira':
-            self.fullLixeira(client,message)
+            self.fullLixeira(client,message,data)
             
         elif message == 'alertLixeiraLimit':
             self.alertLixeiraLimit(client,message,data)
 
-        elif message == 'lockedLixeira':
-            self.lockedLixeira(client,message)
+        elif message == 'lockLixeira':
+            self.lockLixeira(client,message,data)
+        
+        elif message == 'unlockLixeira':
+            self.unlockLixeira(client,message,data)    
         ##### LIXEIRA BALANCER #####   
 
     
@@ -39,16 +40,19 @@ class Api:
     
     
     def changeLixeiraStatus(self,client,message,data):
-        print(message,data)
+        print(client,message,data)
     
-    def emptyLixeira(self,client,message):
-        print(message)
+    def emptyLixeira(self,client,message,data):
+        print(client,message,data)
     
-    def fullLixeira(self,client,message):
-        print(message)
+    def fullLixeira(self,client,message,data):
+        print(client,message,data)
         
     def alertLixeiraLimit(self,client,message,data):
-        print(message,data)
+        print(client,message,data)
         
-    def lockedLixeira(self,client,message):
-        print(message)
+    def lockLixeira(self,client,message,data):
+        print(client,message,data)
+        
+    def unlockLixeira(self,client,message,data):
+        print(client,message,data)

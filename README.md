@@ -1,3 +1,3 @@
-Inicie primeiro o Server (localizado em Models\Server.py) executando "python Server.py"
+Inicie primeiro o Server (localizado em Server.py) executando "python Server.py"
 
-Inicie a lixeira (localizada em Models\Lixeira.py) executando "python Lixeira.py"
+Inicie a lixeira (localizada em Lixeira.py) executando "python Lixeira.py"

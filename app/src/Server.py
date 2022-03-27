@@ -5,6 +5,7 @@ from Api import Api
 class Server:
     
     def __init__(self):
+        self.clientsArray = []
         self.IP = '127.0.0.1'
         self.PORT = 64064
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,6 +28,9 @@ class Server:
                 print('Data no Servidor',data, client)
                 
                 if data:
+                    # client[0] is IP; client[1] is PORT
+                    if client[0] not in self.clientsArray: self.clientsArray.append(client[0])
+                    
                     data = json.loads(data)
                     self.API.fetchMessage(data,client)
                 
