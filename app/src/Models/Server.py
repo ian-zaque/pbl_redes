@@ -1,11 +1,14 @@
+import json
 import socket
+from Api import Api
 
 class Server:
     
     def __init__(self):
         self.IP = '127.0.0.1'
-        self.PORT = 65423
+        self.PORT = 64064
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.API = Api(self.IP, self.PORT)
         
     def startConnection(self):
         self.serverSocket.bind((self.IP, self.PORT))
@@ -18,14 +21,16 @@ class Server:
             # print("Connected by ", client)
             # print("CONN ", conn)
             
+            # RECEIVING FROM CLIENT
             while True:
-                data = conn.recv(4096)
-                print('Data no Servidor',data)
+                data = conn.recv(2048)
+                print('Data no Servidor',data, client)
                 
-                if not data: break
+                if data:
+                    data = json.loads(data)
+                    self.API.fetchMessage(data,client)
                 
-                # conn.sendall(data)
-                print(data)
+                else: break
                 
             conn.close()
     

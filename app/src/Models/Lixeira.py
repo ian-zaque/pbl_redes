@@ -13,39 +13,38 @@ class Lixeira(Client):
     def getContent(self):
         return self.content
     
+    def getPercentage(self):
+        return self.content/self.capacidade
+    
     def isLocked(self):
         return self.locked
     
     def setLocked(self):
         self.locked = not self.locked
-        self.sendMessage("fechou man".encode("ascii"))
-        # AVISAR AQUI QUE TRANCOU/DESTRANCOU
+        self.createMessage('changeLixeiraStatus',self.isLocked())
     
     def removeLixo(self):
         if self.locked == False and self.content > 0:
             self.content = 0
-            self.sendMessage("tudo limpo por aqui".encode("ascii"))
-            # AVISAR AQUI QUE ESVAZIOU
+            self.createMessage('emptyLixeira')
     
     def insertLixo(self):
         if self.locked == False:
             
-            if self.content/self.capacidade < 0.9:
+            if self.getPercentage() < 0.9:
                 self.content = self.content + 1
                 
             elif self.content == self.capacidade:
-                self.sendMessage("encheu pode parar".encode("ascii"))
                 self.locked = True
+                self.createMessage('fullLixeira')
             
             else:
-                # AVISAR AQUI QUE BATEU O LIMITE, CHAMAR CAMINHÃO
-                self.sendMessage("Ó o caminhao da merenda".encode("ascii"))
+                self.createMessage('alertLixeiraLimit',self.getPercentage())
                 
         else:
-            self.sendMessage("lacrou".encode("ascii"))
+            self.createMessage('lockedLixeira')
             
 lixeira = Lixeira(5)
-print('AQUI 111111')
 lixeira.startConnection()
 print(lixeira.getContent(), lixeira.isLocked())
 lixeira.insertLixo()
@@ -56,7 +55,6 @@ lixeira.insertLixo()
 lixeira.insertLixo()
 lixeira.insertLixo()
 lixeira.insertLixo()
-print('AQUI 2222222')
 print(lixeira.getContent(), lixeira.isLocked())
 lixeira.insertLixo()
 lixeira.insertLixo()
