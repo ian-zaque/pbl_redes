@@ -21,7 +21,7 @@ class Lixeira(Client):
         return self.locked
     
     def toString(self):
-        lixeira = {
+        return {
             'IP': self.IP, 
             'PORT':self.PORT,
             'isLocked': self.isLocked(),
@@ -29,20 +29,19 @@ class Lixeira(Client):
             'conteudo': self.getContent(),
             'porcentagem': self.getPercentage()
         }
-        return lixeira
     
     def lock(self):
         self.locked = True
-        self.createMessage('lockLixeira',self.toString())
+        self.createMessage('lixeira/lockLixeira',self.toString())
         
     def unlock(self):
         self.locked = False
-        self.createMessage('unlockLixeira',self.toString())
+        self.createMessage('lixeira/unlockLixeira',self.toString())
     
     def removeLixo(self):
         if self.locked == False and self.conteudo > 0:
             self.conteudo = 0
-            self.createMessage('emptyLixeira',self.toString())
+            self.createMessage('lixeira/emptyLixeira',self.toString())
     
     def insertLixo(self):
         if self.locked == False:
@@ -52,15 +51,15 @@ class Lixeira(Client):
                 
             elif self.conteudo == self.capacidade:
                 self.locked = True
-                self.createMessage('fullLixeira',self.toString())
+                self.createMessage('lixeira/fullLixeira',self.toString())
             
             else:
-                self.createMessage('alertLixeiraLimit',self.toString())
+                self.createMessage('lixeira/alertLixeiraLimit',self.toString())
                 
         else:
-            self.createMessage('lockedLixeira',self.toString())
+            self.createMessage('lixeira/lockedLixeira',self.toString())
             
-# lixeira = Lixeira(5)
+# lixeira = Lixeira('',5)
 # lixeira.startConnection()
 # print(lixeira.getContent(), lixeira.isLocked())
 # lixeira.insertLixo()

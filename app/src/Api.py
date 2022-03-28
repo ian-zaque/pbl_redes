@@ -14,34 +14,43 @@ class Api:
         if 'data' in data: data = data['data']
         
         ##### LIXEIRA BALANCER #####        
-        if message == 'changeLixeiraStatus':
-            self.changeLixeiraStatus(client,message,data)
-    
-        elif message == 'emptyLixeira':
+        if message == 'lixeira/emptyLixeira':
             self.emptyLixeira(client,message,data)
             
-        elif message == 'fullLixeira':
+        elif message == 'lixeira/fullLixeira':
             self.fullLixeira(client,message,data)
             
-        elif message == 'alertLixeiraLimit':
+        elif message == 'lixeira/alertLixeiraLimit':
             self.alertLixeiraLimit(client,message,data)
 
-        elif message == 'lockLixeira':
+        elif message == 'lixeira/lockLixeira':
             self.lockLixeira(client,message,data)
         
-        elif message == 'unlockLixeira':
+        elif message == 'lixeira/unlockLixeira':
             self.unlockLixeira(client,message,data)    
-        ##### LIXEIRA BALANCER #####   
+        ##### LIXEIRA BALANCER #####
+        
+        
+        ##### CENTRAL BALANCER #####        
+        elif message == 'central/addLixo':
+            self.addLixo(client,data)
+    
+        elif message == 'central/removeLixo':
+            self.removeLixo(client,message,data)
+            
+        elif message == 'central/lixeiras':
+            self.getAllLixeiras(client,message,data)
+
+        elif message == 'central/LockLixeira':
+            self.centralLockLixeira(client,message,data)
+        
+        elif message == 'central/unLockLixeira':
+            self.centralUnlockLixeira(client,message,data)    
+        ##### CENTRAL BALANCER #####
 
     
     
-    
-    
-    
-    
-    def changeLixeiraStatus(self,client,message,data):
-        print(client,message,data)
-    
+    ##### LIXEIRA METHODS #####
     def emptyLixeira(self,client,message,data):
         print(client,message,data)
     
@@ -56,3 +65,24 @@ class Api:
         
     def unlockLixeira(self,client,message,data):
         print(client,message,data)
+    ##### LIXEIRA METHODS #####
+    
+    
+    ##### CENTRAL METHODS #####
+    def addLixo(self,client,data):
+        # tratar dado aqui
+        # lixeiraIP, lixeiraID
+        print('Lixo Adicionado')
+        
+    def removeLixo(self):
+        print('Lixo Removido')
+        
+    def getAllLixeiras(self):
+        print('Todas as Lixeiras: ',[])
+        
+    def centralLockLixeira(self):
+        print('Lixeira travada')
+        
+    def centralUnlockLixeira(self):
+        print('Lixeira destravada')
+    ##### CENTRAL METHODS #####

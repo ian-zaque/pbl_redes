@@ -24,7 +24,7 @@ class Server:
             
             # RECEIVING FROM CLIENT
             while True:
-                data = conn.recv(4096)
+                data = conn.recv(8192)
                 print('Data no Servidor',data, client)
                 
                 if data:

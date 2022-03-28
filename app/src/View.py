@@ -9,6 +9,7 @@ class View:
     def __init__(self, window):
         self.window = window
         self.lixeiras = []; self.index = 0
+        self.central = central.Central('127.0.0.1',64064)
         
         # Variables to control itens placement
         self.widthButton = 55; self.heightButton = 25;
@@ -44,7 +45,6 @@ class View:
         self.ipInput["justify"] = "center"
         self.ipInput["text"] = ""
         self.ipInput.place(x=40,y=460,width=90,height=25)
-        # self.ipInput.trace('w',self.onIpChange)
 
         self.capacidadeLabel=tk.Label(self.window, name = "capacidadeLabel")
         self.capacidadeLabel["font"] = tkFont.Font(family='Times',size=10)
@@ -62,7 +62,6 @@ class View:
         self.capacidadeInput["justify"] = "center"
         self.capacidadeInput["text"] = ""
         self.capacidadeInput.place(x=220,y=460,width=50,height=25)
-        # self.capacidadeInput.trace('w',self.onCapacidadeChange)
 
         # Button that creates Lixeiras
         self.btnCreateLixeiras = tk.Button(self.window, name = "btnCreateLixeiras")
@@ -74,8 +73,7 @@ class View:
         self.btnCreateLixeiras["text"] = "Add Lixeira"
         self.btnCreateLixeiras.place(x=290,y=460,width=75,height=25)
         self.btnCreateLixeiras["command"] = self.btnCreateLixeiras_command
-    
-        if self.ipInput.get() == '' or self.capacidadeInput.get() == '': self.btnCreateLixeiras['state'] = 'disabled'
+
     
     def createLixeira(self, IP, capacidade):
         
@@ -104,7 +102,6 @@ class View:
         addButton["justify"] = "center"
         addButton["text"] = "Add"
         addButton.place(x = self.xAddButton, y = self.yAddButton, width = self.widthButton, height =self.heightButton)
-        # addButton["command"] = self.GButton_655_command
 
         # Remove Lixo BUtton
         removeButton=tk.Button(self.window, name = "removeButton" + str(self.index))
@@ -142,6 +139,9 @@ class View:
         percentage["relief"] = "flat"
         percentage.place(x=self.xPercentage, y=self.yPercentage, width=self.widthPercentage, height=self.heightPercentage)        
         
+        lixeiraModel = lixeira.Lixeira(IP, capacidade)
+        lixeiraModel.startConnection()
+        
         self.lixeiras.append({
             'addButton' : addButton,
             'removeButton': removeButton,
@@ -150,12 +150,16 @@ class View:
             'self.index': self.index,
             'IP': IP,
             'Capacidade': capacidade,
-            # 'lixeira': lixo
+            'ID': hash(IP + str(self.index)),
+            'lixeira': lixeiraModel
         })
+        
         self.index = self.index + 1
         self.capacidadeInput.delete(0,tk.END); self.capacidadeInput.insert(0,'')
         self.ipInput.delete(0,tk.END); self.ipInput.insert(0,'')
-
+        
+        addButton["command"] = self.addButtonCommand(lixeiraModel.IP, hash(IP + str(self.index-1)))
+        
 
     def btnCreateLixeiras_command(self):      
         self.createLixeira(self.ipInput.get(),self.capacidadeInput.get())
@@ -164,7 +168,11 @@ class View:
         if self.ipInput.get() == '' or self.capacidadeInput.get() == '': self.btnCreateLixeiras['state'] = 'disabled'
         elif self.ipInput.get() != '' and self.capacidadeInput.get() != '': self.btnCreateLixeiras['state'] = 'normal'
 
+    def addButtonCommand(self, lixeiraIp, lixeiraId):
+        self.central.addLixo(lixeiraIp, lixeiraId)
+        self.central.getLixeira(lixeiraIp, lixeiraId)
+
 if __name__ == "__main__":
     window = tk.Tk()
-    app = App(window)
+    app = View(window)
     window.mainloop()
