@@ -1,9 +1,9 @@
-from Client import Client
+from client import Client
 
 class Lixeira(Client):
     
-    def __init__(self, capacidade):
-        super().__init__()
+    def __init__(self, ip, capacidade):
+        super().__init__(ip)
         self.capacidade = capacidade
         self.conteudo = 0
         self.locked = False
@@ -60,19 +60,19 @@ class Lixeira(Client):
         else:
             self.createMessage('lockedLixeira',self.toString())
             
-lixeira = Lixeira(5)
-lixeira.startConnection()
-print(lixeira.getContent(), lixeira.isLocked())
-lixeira.insertLixo()
-lixeira.insertLixo()
-lixeira.removeLixo()
-print(lixeira.getContent(), lixeira.isLocked())
-lixeira.insertLixo()
-lixeira.insertLixo()
-lixeira.insertLixo()
-lixeira.insertLixo()
-print(lixeira.getContent(), lixeira.isLocked())
-lixeira.insertLixo()
-lixeira.insertLixo()
-print(lixeira.getContent(), lixeira.isLocked())
+# lixeira = Lixeira(5)
+# lixeira.startConnection()
+# print(lixeira.getContent(), lixeira.isLocked())
+# lixeira.insertLixo()
+# lixeira.insertLixo()
+# lixeira.removeLixo()
+# print(lixeira.getContent(), lixeira.isLocked())
+# lixeira.insertLixo()
+# lixeira.insertLixo()
+# lixeira.insertLixo()
+# lixeira.insertLixo()
+# print(lixeira.getContent(), lixeira.isLocked())
+# lixeira.insertLixo()
+# lixeira.insertLixo()
+# print(lixeira.getContent(), lixeira.isLocked())
             

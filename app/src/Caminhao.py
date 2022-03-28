@@ -1,4 +1,4 @@
-from Client import Client
+from client import Client
 class Caminhao(Client):
     
     def __init__(self, capacidade):

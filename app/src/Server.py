@@ -1,6 +1,6 @@
 import json
 import socket
-from Api import Api
+from api import Api
 
 class Server:
     
@@ -24,7 +24,7 @@ class Server:
             
             # RECEIVING FROM CLIENT
             while True:
-                data = conn.recv(2048)
+                data = conn.recv(4096)
                 print('Data no Servidor',data, client)
                 
                 if data:
