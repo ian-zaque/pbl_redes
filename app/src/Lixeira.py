@@ -2,11 +2,12 @@ from client import Client
 
 class Lixeira(Client):
     
-    def __init__(self, ip, capacidade):
-        super().__init__(ip)
+    def __init__(self, capacidade):
+        super().__init__()
         self.capacidade = capacidade
         self.conteudo = 0
         self.locked = False
+        self.startConnection()
         
     def getCapacity(self):
         return self.capacidade
@@ -23,7 +24,7 @@ class Lixeira(Client):
     def toString(self):
         return {
             'IP': self.IP, 
-            'PORT':self.PORT,
+            'PORT': self.PORT,
             'isLocked': self.isLocked(),
             'capacidade': self.getCapacity(),
             'conteudo': self.getContent(),
@@ -54,13 +55,13 @@ class Lixeira(Client):
                 self.createMessage('lixeira/fullLixeira',self.toString())
             
             else:
+                self.conteudo = self.conteudo + 1
                 self.createMessage('lixeira/alertLixeiraLimit',self.toString())
                 
         else:
             self.createMessage('lixeira/lockedLixeira',self.toString())
             
-# lixeira = Lixeira('',5)
-# lixeira.startConnection()
+# lixeira = Lixeira(5)
 # print(lixeira.getContent(), lixeira.isLocked())
 # lixeira.insertLixo()
 # lixeira.insertLixo()

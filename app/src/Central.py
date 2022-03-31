@@ -4,12 +4,11 @@ from lixeira import Lixeira
 
 class Central(Client):
     
-    def __init__(self, IP, PORT):
-        super().__init__(IP)
-        self.IP = IP
-        self.PORT = PORT
+    def __init__(self):
+        super().__init__()
         self.IP = '127.0.0.1'
         self.PORT = 64064
+        self.startConnection()
     
     def lockLixeira(self,lixeiraIp, lixeiraID):
         self.createMessage('central/LockLixeira',{'IP': lixeiraIp, 'ID': lixeiraID})

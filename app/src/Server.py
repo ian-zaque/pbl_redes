@@ -29,7 +29,8 @@ class Server:
                 
                 if data:
                     # client[0] is IP; client[1] is PORT
-                    if client[0] not in self.clientsArray: self.clientsArray.append(client[0])
+                    if client[0] not in self.clientsArray: self.clientsArray.append(client)
+                    print("Lixeiras: ", self.clientsArray)
                     
                     data = json.loads(data)
                     self.API.fetchMessage(data,client)
