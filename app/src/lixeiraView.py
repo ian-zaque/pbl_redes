@@ -3,7 +3,7 @@ sys.path.append('../')
 
 import tkinter as tk
 import tkinter.font as tkFont 
-from src import lixeira, central
+from src import lixeira
 
 class LixeiraView:
     def __init__(self, window):

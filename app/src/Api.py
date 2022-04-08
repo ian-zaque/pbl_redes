@@ -11,6 +11,7 @@ class Api:
     
     def fetchMessage(self,data,client):
         message = data['message']
+        print('API: ', message, client)
         if 'data' in data: data = data['data']
         
         ##### LIXEIRA BALANCER #####        
