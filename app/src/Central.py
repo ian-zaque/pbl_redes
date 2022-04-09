@@ -1,13 +1,10 @@
-import imp
 from client import Client
-from lixeira import Lixeira
 
 class Central(Client):
     
     def __init__(self):
         super().__init__()
-        self.IP = '127.0.0.1'
-        self.PORT = 64064
+        self.lixeiras = {}
         self.startConnection()
     
     def lockLixeira(self,lixeiraIp, lixeiraID):
@@ -26,4 +23,7 @@ class Central(Client):
         self.createMessage('central/getLixeira',{'IP': lixeiraIP, 'ID': lixeiraID})
     
     def getAllLixeiras(self):
-        self.createMessage('central/lixeiras')
+        self.createMessage('central/lixeiras',{})
+        
+central = Central()
+central.getAllLixeiras()

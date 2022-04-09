@@ -38,36 +38,47 @@ class Server:
         #         else: break
                 
         #     conn.close()
-        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        server.setblocking(0)
-        server.bind(('127.0.0.1', 64064))
-        server.listen(5)
-        inputs = [server]
+        
+        self.serverSocket.setblocking(0)
+        self.serverSocket.bind(('127.0.0.1', 64064))
+        self.serverSocket.listen(5)
+        inputs = [self.serverSocket]
         outputs = []
         message_queues = {}
 
         while inputs:
             readable, writable, exceptional = select.select(inputs, outputs, inputs)
+            print('111111111111',readable)
+            print('222222222222',writable)
+            print('333333333333',exceptional)
             for s in readable:
-                if s is server:
+                if s is self.serverSocket:
                     connection, client_address = s.accept()
-                    connection.setblocking(0)
+                    # connection.setblocking(1)
                     inputs.append(connection)
                     message_queues[connection] = queue.Queue()
                 else:
                     data = s.recv(1024)
                     print('Data no Servidor: ',data, client_address)
+                    print('\n')
                     if data:
                         message_queues[s].put(data)
-                        # client_address[0] is IP; client_address[1] is PORT
-                        if client_address[0] not in self.clientsArray: self.clientsArray.append(client_address)
-                        print("Lixeiras: ", self.clientsArray)
-                        
                         data = json.loads(data)
-                        self.API.fetchMessage(data,client_address)
+                        
+                        # client_address[0] is IP; client_address[1] is PORT
+                        if client_address[0] not in self.clientsArray: self.clientsArray.append({client_address: data['data'] })
+                        print("Lixeiras: ", self.clientsArray)
+                        print('\n')
+                        
+                        apiResponse = self.API.fetchMessage(data,client_address, self.clientsArray)
+                        if apiResponse != None: self.serverSocket.sendto(json.dumps(apiResponse).encode("utf-8"), client_address)
+                        
+                        print('API RESPONSE: ', apiResponse)
+                        print('\n')
                         
                         if s not in outputs:
                             outputs.append(s)
+                            
                     else:
                         if s in outputs:
                             outputs.remove(s)
@@ -77,10 +88,12 @@ class Server:
 
             for s in writable:
                 try:
+                    print('----------',s)
                     next_msg = message_queues[s].get_nowait()
                 except queue.Empty:
                     outputs.remove(s)
                 else:
+                    # if apiResponse != None: self.serverSocket.sendto(json.dumps(apiResponse).encode("utf-8"), client_address)
                     s.send(next_msg)
 
             for s in exceptional:

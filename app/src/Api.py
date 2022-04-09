@@ -9,7 +9,7 @@ class Api:
         self.BASE_URL = self.IP + '/' + str(self.PORT)
         
     
-    def fetchMessage(self,data,client):
+    def fetchMessage(self,data,client, lixeiras):
         message = data['message']
         print('API: ', message, client)
         if 'data' in data: data = data['data']
@@ -40,7 +40,7 @@ class Api:
             self.removeLixo(client,message,data)
             
         elif message == 'central/lixeiras':
-            self.getAllLixeiras(client,message,data)
+            self.getAllLixeiras(lixeiras)
 
         elif message == 'central/LockLixeira':
             self.centralLockLixeira(client,message,data)
@@ -78,8 +78,9 @@ class Api:
     def removeLixo(self):
         print('Lixo Removido')
         
-    def getAllLixeiras(self):
-        print('Todas as Lixeiras: ',[])
+    def getAllLixeiras(self,lixeiras):
+        print('Todas as Lixeiras: ',lixeiras)
+        return lixeiras
         
     def centralLockLixeira(self):
         print('Lixeira travada')

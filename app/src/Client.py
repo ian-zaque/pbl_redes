@@ -17,7 +17,10 @@ class Client:
     def createMessage(self,message, data):
         body = {'message': message, 'data': data}
         msg = json.dumps(body).encode("utf-8")
+        
         print('Sending Message From client',msg)
+        print('\n')
+        
         self.clientSocket.sendall(msg)
     
     def disconnect(self):
